@@ -161,7 +161,28 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        if self.get_load_factor() > self.max_load_factor:
+            old_storage = self.storage.copy()
+            self.capacity = new_capacity or self.capacity * 2
+            self.storage = [None] * self.capacity
+
+            for item in old_storage:
+                while item:
+                    self.put(item.key, item.value)
+                    item = item.next
+            return
+        elif self.get_load_factor() < self.min_load_factor and self.capacity > 8:
+            old_storage = self.storage.copy()
+            self.capacity = new_capacity or self.capacity / 2
+            self.storage = [None] * self.capacity
+
+            for item in old_storage:
+                while item:
+                    self.put(item.key, item.value)
+                    item = item.next
+            return
+        else:
+            return
 
 
 
